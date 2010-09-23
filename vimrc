@@ -1,6 +1,9 @@
+
 "
 " Basic/common settings
 "
+filetype plugin on
+filetype detect
 
 " Vim is better
 set nocompatible
@@ -41,6 +44,17 @@ set ttyfast
 set shiftround
 " min window height
 "set wmh=0
+
+
+" highlight text over 79 cols (pep8 etc)
+set cc=+1
+"augroup vimrc_autocmds
+"    "au!
+"    "highlight OverLength ctermbg=darkred ctermfg=white guibg=#111415
+"    "autocmd BufRead * highlight OverLength ctermbg=darkred ctermfg=white guibg=#24000d
+"    "3e2426
+"    "autocmd BufRead * match OverLength /\%>80v.\+/
+"augroup END
  
 " a - terse messages (like [+] instead of [Modified]
 " o - don't show both reading and writing messages if both occur at once
@@ -73,8 +87,8 @@ set smartcase
 set hlsearch
 " don't move the cursor to the start of the line when changing buffers
 set nostartofline
-" enable mouse in insert mode
-set mouse=in
+" enable mouse in all modes
+set mouse=a
 
 
 
@@ -92,7 +106,7 @@ set smarttab
 " Use spaces for tabs
 set expandtab
 " When wrapping/formatting, break at 79 characters.
-set textwidth=79
+set textwidth=76
 " By default, all indent/tab stuff is 4 spaces, as God intended.
 set tabstop=4
 set softtabstop=4
@@ -124,6 +138,9 @@ set shiftround
 
 " <Leader> key
 let mapleader = "," 
+
+" auto-reload vimrc on write
+" autocmd! BufWritePost .vimrc source %
 
 " Allow folding to play nice with Python and other well-indented code
 set foldmethod=indent
@@ -173,9 +190,9 @@ if has("autocmd")
 endif
  
 " Filetype based indent rules
-if has("autocmd")
-  filetype indent plugin on
-endif
+"if has("autocmd")
+"filetype indent plugin on
+"endif
 
 
 
@@ -196,20 +213,26 @@ set foldclose=all
 " MacVim
 if has("gui_macvim")
     set t_Co=256
-    colorscheme wombat256
+    "colorscheme wombat256
+    colorscheme rdark_ae
     " Colorize for a dark background
     set background=dark
 "    set transparency=5
     "set guifont=Inconsolata:h14
-    set lines=60
+    "set lines=110
     set formatoptions-=t
     set formatoptions-=c
+    set guioptions-=L
+    set guioptions-=R
 endif
  
  
 "
 " Settings for specific filetypes
 "
+
+" vimrc without dot
+"au BufNewFile,BufRead vimrc set filetype=vim
  
 " Ruby
 "autocmd FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=2 foldmethod=syntax
@@ -218,17 +241,17 @@ endif
 autocmd FileType mkd setlocal ai comments=n:>
  
 " ReST
-autocmd BufRead *.rst setlocal filetype=rest
-autocmd FileType rest setlocal ai comments=n:>
+"autocmd BufRead *.rst setlocal filetype=rest
+"autocmd FileType rest setlocal ai comments=n:>
  
 " YAML
-autocmd FileType yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2
+"autocmd FileType yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2
  
 " No more need to drop modelines into common Apache files
 " (both Debian and RedHat style Apache conf dirs)
 "autocmd BufRead /etc/apache2/*,/etc/httpd/* setlocal filetype=apache
  
- 
+
 "
 " Key mappings
 "
@@ -248,10 +271,11 @@ inoremap <down> <C-R>=pumvisible() ? "\<lt>down>" : "\<lt>C-o>gj"<Enter>
 inoremap <silent> <C-a> <ESC>u:set paste<CR>.:set nopaste<CR>gi
 "ignore indent mode for shift-backspace
 inoremap <S-BS> <Esc>xa
-inoremap () ()<Left>
-inoremap [] []<Left>
-inoremap '' ''<Left>
-inoremap "" ""<Left>
+"inoremap () ()<Left>
+"inoremap [] []<Left>
+"inoremap '' ''<Left>
+"inoremap ''' '''
+"inoremap "" ""<Left>
 
 
 " Normal-mode remappings {{{
@@ -261,6 +285,11 @@ nore \ ;
 nmap <Space> i <Esc>r
 " Custom mapping shortcut for :nohl
 nmap <C-N> :noh<CR>
+" window switching
+nmap <C-Up> <C-w><C-k>
+nmap <C-Down> <C-w><C-j>
+nmap <C-Left> <C-w><C-h>
+nmap <C-Right> <C-w><C-l>
 " Map normal mode Enter to add a new line.
 " Useful for adding spacing to a file while navigating.
 nmap <Enter> o<Esc>
@@ -276,7 +305,7 @@ nmap # #zz
 nmap g* g*zz
 nmap g# g#zz
 "w (move forward by word) should have W as its opposite
-nmap W b
+"no it shouldn't that's a bad habit! nmap W b
 " shift + right and left switch buffers
 nmap <S-Right> :bn<CR>
 nmap <S-Left> :bp<CR>
@@ -291,12 +320,15 @@ autocmd FileType help nnoremap <buffer> <BS> <C-T>
 
 " Plugins
 "
+" Plugin path for vim-addon-manager support
+set runtimepath+=~/dotfiles/vim-addons/vim-addon-manager
+call scriptmanager#Activate(["nerd_tree","fugitive"])
 " Plugin mappings
 map <leader>l :TlistOpen<CR>
 ":TlistToggle<CR>
 " FuzzyFinder
 "map <leader>t :FuzzyFinderTextMate<CR>
-cd ~/workspace/manabi
+cd ~/workspace
 nmap <leader>F :FufFile<CR>
 nmap <leader>t :FufFileRecursive<CR>
 nmap <leader>f :FufFileWithCurrentBufferDir<CR>
@@ -424,10 +456,6 @@ let Tlist_Show_One_File=1
 "set ignorecase
 "set smartcase
 "set scrolloff=2
-
-"Set color scheme
-"colorscheme wombat256
-"syntax enable
 
 "disable cursor blink
 set gcr=a:blinkon0
