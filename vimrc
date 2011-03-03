@@ -47,7 +47,9 @@ set shiftround
 
 
 " highlight text over 79 cols (pep8 etc)
-set cc=+1
+if has("cc")
+    set cc=+1
+endif
 "augroup vimrc_autocmds
 "    "au!
 "    "highlight OverLength ctermbg=darkred ctermfg=white guibg=#111415
@@ -106,7 +108,7 @@ set smarttab
 " Use spaces for tabs
 set expandtab
 " When wrapping/formatting, break at 79 characters.
-set textwidth=76
+"set textwidth=76
 " By default, all indent/tab stuff is 4 spaces, as God intended.
 set tabstop=4
 set softtabstop=4
@@ -184,10 +186,11 @@ set sc
 set grepprg=ack
 
 " Jump to last known location in file
-if has("autocmd")
-  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-    \| exe "normal g'\"" | endif
-endif
+"SLOW?
+"""if has("autocmd")
+"""  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+"""    \| exe "normal g'\"" | endif
+"""endif
  
 " Filetype based indent rules
 "if has("autocmd")
@@ -309,6 +312,10 @@ nmap g# g#zz
 " shift + right and left switch buffers
 nmap <S-Right> :bn<CR>
 nmap <S-Left> :bp<CR>
+
+" visually select the last pasted or inserted text,
+" using the last used visual mode.
+nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 
 " make help easier to navigate
