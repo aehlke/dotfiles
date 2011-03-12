@@ -1,0 +1,33 @@
+[user]
+	name = Alex Ehlke
+	email = alex.ehlke@gmail.com
+[core]
+;    pager = less -RS
+[merge]
+	tool = opendiff
+[color]
+	branch = auto
+	status = auto
+	diff = auto
+	ui = auto
+[pack]
+	threads = 0
+[diff]
+	renamelimit = 0
+	;external = /Users/jehlke/utils/opendiff-git.sh
+    ;external = ~/dotfiles/git_diff_wrapper
+	tool = vimdiff
+;[pager]
+;    diff =
+[alias]
+    st = status
+    ci = commit
+    br = branch
+    co = checkout
+    df = diff
+    lg = log
+    sb = show-branch
+    ds = !git --no-pager diff --stat -M -w
+    summary = log --oneline
+    staged = diff --cached
+    pom = push origin master
