@@ -360,6 +360,14 @@ let Tlist_Enable_Fold_Column=0
 let Tlist_Show_One_File=1
 "let g:gist_detect_filetype = 1
 
+"Pathogen
+call pathogen#runtime_append_all_bundles()
+
+
+
+
+" Shell cmds
+nmap <leader>m :!/Users/jehlke/workspace/titanium/Manabi/simulator.sh<CR>
 
 
 
