@@ -1,8 +1,13 @@
+" Pathogen
+filetype off
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+
 
 "
 " Basic/common settings
 "
-filetype plugin on
+filetype plugin indent on
 filetype detect
 
 " Vim is better
@@ -359,9 +364,6 @@ let Tlist_Show_Menu=1
 let Tlist_Enable_Fold_Column=0
 let Tlist_Show_One_File=1
 "let g:gist_detect_filetype = 1
-
-"Pathogen
-call pathogen#runtime_append_all_bundles()
 
 
 
