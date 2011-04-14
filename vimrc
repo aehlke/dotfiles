@@ -190,6 +190,18 @@ set sc
 " ack > grep
 set grepprg=ack
 
+"No more middle-click paste
+nnoremap <MiddleMouse> <Nop>
+nnoremap <2-MiddleMouse> <Nop>
+nnoremap <3-MiddleMouse> <Nop>
+nnoremap <4-MiddleMouse> <Nop>
+
+inoremap <MiddleMouse> <Nop>
+inoremap <2-MiddleMouse> <Nop>
+inoremap <3-MiddleMouse> <Nop>
+inoremap <4-MiddleMouse> <Nop>
+
+
 " Jump to last known location in file
 "SLOW?
 """if has("autocmd")
@@ -350,6 +362,11 @@ let g:fuf_dir_exclude = '\v(^|[/\\])\.(hg|git|bzr)($|[/\\])'
 let g:fuf_mrufile_exclude = '\v\~$|\.(bak|sw[mnop])$|^(\/\/|\\\\|\/mnt\/|\/media\/)'
 " Ignore the dojango directory since it's huge and spammy
 let g:fuf_file_exclude = '\v\~$|dojango|\.(o|exe|dll|bak|sw[mnop]|zip|pyc|DS_Store|tar\.gz)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
+
+" ansiesc.vim
+"if exists(":AnsiEsc")
+"    exec ":AnsiEsc"
+"endif
 
 " Plugin settings
 let g:autoclose_on = 0

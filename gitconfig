@@ -31,3 +31,5 @@
     summary = log --oneline
     staged = diff --cached
     pom = push origin master
+[core]
+	excludesfile = /Users/jehlke/.gitignore_global
