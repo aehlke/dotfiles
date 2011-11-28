@@ -1,0 +1,12 @@
+.DS_Store
+*.swh
+*.swi
+*.swj
+*.swk
+*.swl
+*.swm
+*.swn
+*.swo
+*.swp
+vim/.netrwhist
+
