@@ -1,3 +1,6 @@
 [submodule "vim/bundle/indent-object"]
 	path = vim/bundle/indent-object
 	url = git://github.com/michaeljsmith/vim-indent-object.git
+[submodule "vim/bundle/argtextobj"]
+	path = vim/bundle/argtextobj
+	url = git://github.com/inkarkat/argtextobj.vim.git
