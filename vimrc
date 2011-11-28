@@ -402,7 +402,6 @@ let Tlist_Show_One_File=1
 
 
 
-
 " Shell cmds
 let ti_simulator_script = "/Users/jehlke/workspace/titanium/Manabi/simulator.sh"
 if filereadable(ti_simulator_script)
@@ -533,9 +532,6 @@ let g:SuperTabContextDefaultCompletionType = '<C-x><C-n>'
 "set backspace=indent,eol,start
 
 "from vim-config-python-ide
-
-" For full syntax highlighting:
-"syntax on
 
 "python syntax highlighting
 let python_highlight_builtins = 1
