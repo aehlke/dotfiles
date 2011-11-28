@@ -3,6 +3,12 @@ filetype off
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 
+let canvas_dir = "/var/canvas/website"
+if isdirectory(canvas_dir)
+    exec "cd ".canvas_dir
+elseif isdirectory("~/workspace")
+    cd ~/workspace
+endif
 
 "
 " Basic/common settings
@@ -195,7 +201,6 @@ nnoremap <MiddleMouse> <Nop>
 nnoremap <2-MiddleMouse> <Nop>
 nnoremap <3-MiddleMouse> <Nop>
 nnoremap <4-MiddleMouse> <Nop>
-
 inoremap <MiddleMouse> <Nop>
 inoremap <2-MiddleMouse> <Nop>
 inoremap <3-MiddleMouse> <Nop>
@@ -286,7 +291,7 @@ map <down> gj
 inoremap <down> <C-R>=pumvisible() ? "\<lt>down>" : "\<lt>C-o>gj"<Enter>
  
  
-" Insert-mode remappings/abbreviations {{{
+" Insert-mode remappings
 " Hit <C-a> in insert mode after a bad paste (thanks absolon) {{{
 inoremap <silent> <C-a> <ESC>u:set paste<CR>.:set nopaste<CR>gi
 "ignore indent mode for shift-backspace
@@ -296,6 +301,11 @@ inoremap <S-BS> <Esc>xa
 "inoremap '' ''<Left>
 "inoremap ''' '''
 "inoremap "" ""<Left>
+"
+
+" Abbreviations
+iabbr `p import pdb; pdb.set_trace()
+iabbr `l import logging; logger = logging.getLogger('gunicorn'); logger.info()
 
 
 " Normal-mode remappings {{{
@@ -303,8 +313,7 @@ nore ; :
 nore \ ;
 " spacebar (in command mode) inserts a single character before the cursor
 nmap <Space> i <Esc>r
-" Custom mapping shortcut for :nohl
-nmap <C-N> :noh<CR>
+nmap <C-N> :nohl<CR>
 " window switching
 nmap <C-Up> <C-w><C-k>
 nmap <C-Down> <C-w><C-j>
@@ -315,8 +324,6 @@ nmap <C-Right> <C-w><C-l>
 nmap <Enter> o<Esc>
 " have Y behave analogously to D rather than to dd
 nmap Y y$
-" miscellaneous commands I use a lot, so deserve quick shortcuts
-nmap \/ :nohl<CR>
 " now search commands will re-center the screen
 nmap n nzz
 nmap N Nzz
@@ -335,6 +342,13 @@ nmap <S-Left> :bp<CR>
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 
+" Visual-mode remappings
+" Select lines, not including the carriage return.
+vnoremap <silent> al :<c-u>norm!0v$h<cr>
+vnoremap <silent> il :<c-u>norm!^vg_<cr>
+onoremap <silent> al :norm val<cr>
+onoremap <silent> il :norm vil<cr>
+
 " make help easier to navigate
 autocmd FileType help nnoremap <buffer> <CR> <C-]>
 autocmd FileType help nnoremap <buffer> <BS> <C-T>
@@ -345,14 +359,13 @@ autocmd FileType help nnoremap <buffer> <BS> <C-T>
 " Plugins
 "
 " Plugin path for vim-addon-manager support
-set runtimepath+=~/dotfiles/vim-addons/vim-addon-manager
-call scriptmanager#Activate(["nerd_tree","fugitive"])
+"set runtimepath+=~/dotfiles/vim-addons/vim-addon-manager
+"call scriptmanager#Activate(["nerd_tree","fugitive"])
 " Plugin mappings
 map <leader>l :TlistOpen<CR>
 ":TlistToggle<CR>
 " FuzzyFinder
 "map <leader>t :FuzzyFinderTextMate<CR>
-cd ~/workspace
 nmap <leader>F :FufFile<CR>
 nmap <leader>t :FufFileRecursive<CR>
 nmap <leader>f :FufFileWithCurrentBufferDir<CR>
@@ -372,7 +385,12 @@ let g:fuf_file_exclude = '\v\~$|dojango|\.(o|exe|dll|bak|sw[mnop]|zip|pyc|DS_Sto
 let g:autoclose_on = 0
 
 " taglist.vim
-let Tlist_Ctags_Cmd='/opt/local/bin/ctags'
+if filereadable('/usr/local/bin/ctags')
+    let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
+elseif filereadable('/opt/local/bin/ctags')
+    let Tlist_Ctags_Cmd='/opt/local/bin/ctags'
+endif
+
 " auto-update ctags on save
 autocmd BufWritePost *.py :TlistUpdate
 let Tlist_GainFocus_On_ToggleOpen=1
@@ -386,8 +404,10 @@ let Tlist_Show_One_File=1
 
 
 " Shell cmds
-nmap <leader>m :!/Users/jehlke/workspace/titanium/Manabi/simulator.sh<CR>
-
+let ti_simulator_script = "/Users/jehlke/workspace/titanium/Manabi/simulator.sh"
+if filereadable(ti_simulator_script)
+    exec "nmap <leader>m :!".ti_simulator_script."<CR>"
+endif
 
 
 
