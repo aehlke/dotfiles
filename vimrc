@@ -249,6 +249,7 @@ if has("gui_macvim")
     set formatoptions-=c
     set guioptions-=L
     set guioptions-=R
+    set guioptions-=T " Toolbars suck.
 endif
  
  
@@ -392,7 +393,8 @@ elseif filereadable('/opt/local/bin/ctags')
 endif
 
 " auto-update ctags on save
-autocmd BufWritePost *.py :TlistUpdate
+" actually don't, it's slow.
+"autocmd BufWritePost *.py :TlistUpdate
 let Tlist_GainFocus_On_ToggleOpen=1
 let Tlist_Process_File_Always=1
 let Tlist_Show_Menu=1
