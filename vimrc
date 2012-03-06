@@ -1,7 +1,27 @@
-" Pathogen
-filetype off
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
+" Vundle
+" (See https://github.com/gmarik/vundle )
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+Bundle 'gmarik/vundle'
+
+" My bundles:
+" L9 is a FuzzyFinder dependency.
+Bundle 'L9'
+Bundle 'FuzzyFinder'
+Bundle 'bkad/CamelCaseMotion.git'
+Bundle 'inkarkat/argtextobj.vim.git'
+Bundle 'django.vim'
+Bundle 'michaeljsmith/vim-indent-object.git'
+"Bundle 'jshint'
+Bundle 'nginx.vim'
+Bundle 'Puppet-Syntax-Highlighting'
+"Bundle 'aehlke/vim-powerline.git'
+Bundle 'kana/vim-textobj-django-template.git'
+
+" Run :BundleInstall to install the above bundles,
+" or :BundleInstall! to update existing bundles.
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
 
 let canvas_dir = "/var/canvas/website"
 if isdirectory(canvas_dir)
@@ -18,6 +38,8 @@ filetype detect
 
 " Vim is better
 set nocompatible
+" Set the default file encoding to UTF-8:
+set encoding=utf-8
  
 " Colorization/display
  
@@ -26,19 +48,21 @@ syntax on
 "if &term=="builtin_gui"
 "endif
 " Show ruler line at bottom of each buffer
-set ruler
+"set ruler
+" Disable cursor blink
+set gcr=a:blinkon0
 " Show additional info in the command line (very last line on screen) where
 " appropriate.
 set showcmd
 " Always display status lines/rulers
 "set laststatus=2
-" no extra status lines
-set laststatus=0
+" Always show the status line/ruler.
+set laststatus=1
 " display more information in the ruler
 "set rulerformat=%40(%=%t%h%m%r%w%<\ (%n)\ %4.7l,%-7.(%c%V%)\ %P%)
-set rulerformat=%30(%=%h%m%r%w%<\ %4.7l,%-7.(%c%V%)\ %P%)
+"set rulerformat=%30(%=%h%m%r%w%<\ %4.7l,%-7.(%c%V%)\ %P%)
 " current mode in status line
-set showmode
+"set showmode
 " don't redraw the screen during macros etc (NetHack's runmode:teleport)
 set lazyredraw
 " threshold for reporting number of lines changed
@@ -244,6 +268,7 @@ if has("gui_macvim")
     set background=dark
 "    set transparency=5
     "set guifont=Inconsolata:h14
+    set guifont=Menlo\ Regular:h12
     "set lines=110
     set formatoptions-=t
     set formatoptions-=c
@@ -357,21 +382,20 @@ autocmd FileType help nnoremap <buffer> <BS> <C-T>
 
 
 
+"
 " Plugins
 "
-" Plugin path for vim-addon-manager support
-"set runtimepath+=~/dotfiles/vim-addons/vim-addon-manager
-"call scriptmanager#Activate(["nerd_tree","fugitive"])
+
 " Plugin mappings
 map <leader>l :TlistOpen<CR>
 ":TlistToggle<CR>
 " FuzzyFinder
 "map <leader>t :FuzzyFinderTextMate<CR>
 nmap <leader>F :FufFile<CR>
-nmap <leader>t :FufFileRecursive<CR>
+nmap <leader>t :FufCoverageFile<CR>
 nmap <leader>f :FufFileWithCurrentBufferDir<CR>
 nmap <leader>d :FufDir<CR>
-nmap <leader>b :FufBuffer<CR>
+nmap <leader>u :FufBuffer<CR>
 let g:fuf_dir_exclude = '\v(^|[/\\])\.(hg|git|bzr)($|[/\\])'
 let g:fuf_mrufile_exclude = '\v\~$|\.(bak|sw[mnop])$|^(\/\/|\\\\|\/mnt\/|\/media\/)'
 " Ignore the dojango directory since it's huge and spammy
@@ -385,6 +409,8 @@ let g:fuf_file_exclude = '\v\~$|dojango|\.(o|exe|dll|bak|sw[mnop]|zip|pyc|DS_Sto
 " Plugin settings
 let g:autoclose_on = 0
 
+" vim-powerline
+"let Powerline_theme='ae'
 " taglist.vim
 if filereadable('/usr/local/bin/ctags')
     let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
@@ -512,14 +538,12 @@ endif
 "set smartcase
 "set scrolloff=2
 
-"disable cursor blink
-set gcr=a:blinkon0
 
 
 "Quick write session with F2
 map <F2> :mksession! ~/.vim_session <cr>
 "And load session with F3
-map <F3> :source ~/.vim_session <cr>
+"map <F3> :source ~/.vim_session <cr>
 
 
 "supertab
@@ -545,8 +569,6 @@ let python_highlight_indent_errors = 1
 let python_highlight_doctests = 1
 let python_slow_sync = 1
 
-" Set the default file encoding to UTF-8:
-set encoding=utf-8
 
 set completeopt=longest,menuone
 
@@ -555,5 +577,4 @@ set ofu=syntaxcomplete#Complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-
 
