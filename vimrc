@@ -48,7 +48,7 @@ syntax on
 "if &term=="builtin_gui"
 "endif
 " Show ruler line at bottom of each buffer
-"set ruler
+set ruler
 " Disable cursor blink
 set gcr=a:blinkon0
 " Show additional info in the command line (very last line on screen) where
@@ -60,9 +60,9 @@ set showcmd
 set laststatus=1
 " display more information in the ruler
 "set rulerformat=%40(%=%t%h%m%r%w%<\ (%n)\ %4.7l,%-7.(%c%V%)\ %P%)
-"set rulerformat=%30(%=%h%m%r%w%<\ %4.7l,%-7.(%c%V%)\ %P%)
+set rulerformat=%30(%=%h%m%r%w%<\ %4.7l,%-7.(%c%V%)\ %P%)
 " current mode in status line
-"set showmode
+set showmode
 " don't redraw the screen during macros etc (NetHack's runmode:teleport)
 set lazyredraw
 " threshold for reporting number of lines changed
