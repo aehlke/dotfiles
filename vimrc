@@ -17,6 +17,8 @@ Bundle 'nginx.vim'
 Bundle 'Puppet-Syntax-Highlighting'
 "Bundle 'aehlke/vim-powerline.git'
 Bundle 'kana/vim-textobj-django-template.git'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'skammer/vim-css-color'
 
 " Run :BundleInstall to install the above bundles,
 " or :BundleInstall! to update existing bundles.
@@ -345,6 +347,11 @@ nmap <C-Up> <C-w><C-k>
 nmap <C-Down> <C-w><C-j>
 nmap <C-Left> <C-w><C-h>
 nmap <C-Right> <C-w><C-l>
+" window rearrangement
+nmap <S-C-Up> <C-w>K
+nmap <S-C-Down> <C-w>J
+nmap <S-C-Left> <C-w>H
+nmap <S-C-Right> <C-w>L
 " Map normal mode Enter to add a new line.
 " Useful for adding spacing to a file while navigating.
 nmap <Enter> o<Esc>
