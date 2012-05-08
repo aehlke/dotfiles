@@ -4,25 +4,45 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 Bundle 'gmarik/vundle'
 
+"
 " My bundles:
-" L9 is a FuzzyFinder dependency.
+"
+
 Bundle 'L9'
 Bundle 'FuzzyFinder'
-Bundle 'bkad/CamelCaseMotion.git'
-Bundle 'inkarkat/argtextobj.vim.git'
-Bundle 'django.vim'
+" L9 is a FuzzyFinder dependency.
+
 Bundle 'michaeljsmith/vim-indent-object.git'
-"Bundle 'jshint'
-Bundle 'nginx.vim'
+" Adds a text-object 'i' (so you can do e.g. vii)
+
+"Bundle 'hallettj/jshint'
+" See https://github.com/hallettj/jslint.vim for installation docs.
+
 Bundle 'Puppet-Syntax-Highlighting'
-"Bundle 'aehlke/vim-powerline.git'
+Bundle 'bkad/CamelCaseMotion.git'
+Bundle 'ervandew/supertab'
+Bundle 'indentpython'
+Bundle 'inkarkat/argtextobj.vim.git'
+Bundle 'iynaix/django.vim'
 Bundle 'kana/vim-textobj-django-template.git'
 Bundle 'kchmck/vim-coffee-script'
+Bundle 'kien/ctrlp.vim'
+Bundle 'nginx.vim'
 Bundle 'skammer/vim-css-color'
+Bundle 'pangloss/vim-javascript'
+Bundle 'Lokaltog/python-syntax'
+Bundle 'ervandew/supertab'
+Bundle 'scrooloose/nerdcommenter'
 
+Bundle 'indenthtml.vim'
+" Possible alternative: 'https://github.com/djcp/my_vim/blob/master/indent/html.vim'
+
+"
 " Run :BundleInstall to install the above bundles,
 " or :BundleInstall! to update existing bundles.
+"
 """"""""""""""""""""""""""""""""""""""""""""""""""
+
 
 
 let canvas_dir = "/var/canvas/website"
@@ -197,7 +217,7 @@ set modelines=5
 " When splitting, put new windows to the right (vertical) or below (horizontal)
 set splitright splitbelow
 " Start scrolling up/down when cursor gets to 3 lines away from window edge
-set scrolloff=3
+set scrolloff=2
 " Don't use 'more' for shell output automatically.
 set nomore
 " Use bash-like tab completion in Vim command line
@@ -234,18 +254,12 @@ inoremap <4-MiddleMouse> <Nop>
 
 
 " Jump to last known location in file
-"SLOW?
-"""if has("autocmd")
-"""  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-"""    \| exe "normal g'\"" | endif
-"""endif
+" (might be slow, so disabled for now.)
+""if has("autocmd")
+""  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+""    \| exe "normal g'\"" | endif
+""endif
  
-" Filetype based indent rules
-"if has("autocmd")
-"filetype indent plugin on
-"endif
-
-
 
 " Folding {{{
 " fold only when I ask for it damnit!
@@ -285,24 +299,14 @@ endif
 "
 
 " vimrc without dot
-"au BufNewFile,BufRead vimrc set filetype=vim
- 
-" Ruby
-"autocmd FileType ruby setlocal tabstop=2 softtabstop=2 shiftwidth=2 foldmethod=syntax
+au BufNewFile,BufRead vimrc set filetype=vim
  
 " Markdown
 autocmd FileType mkd setlocal ai comments=n:>
  
-" ReST
-"autocmd BufRead *.rst setlocal filetype=rest
-"autocmd FileType rest setlocal ai comments=n:>
- 
-" YAML
-"autocmd FileType yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2
- 
 " No more need to drop modelines into common Apache files
 " (both Debian and RedHat style Apache conf dirs)
-"autocmd BufRead /etc/apache2/*,/etc/httpd/* setlocal filetype=apache
+autocmd BufRead /etc/apache2/*,/etc/httpd/* setlocal filetype=apache
  
 
 "
@@ -455,114 +459,26 @@ endif
 "let g:netrw_list_hide = '.*\.py[co]$,\.git$,\.swp$'
 " Don't use frickin elinks, wtf
 "let g:netrw_http_cmd = "wget -q -O" " or 'curl -Ls -o'
- 
- 
-"
-" Custom "snippets"/shortcuts
-"
- 
-" ReST header shortcuts: create or resize header formatting under/around
-" current line.
- 
-"function! NextLineIsOnly(char)
-"    let check_char = a:char
-"    if check_char == '~'
-"        let check_char = '\~'
-"    endif
-"    return getline(line(".")+1) =~ "^" . check_char . "\\+$"
-"endf
- 
-"function! ReplaceNextLineWith(char)
-"    return "yyjVpVr" . a:char
-"endf
- 
-"function! ReplaceSurroundingsWith(char)
-"    return ReplaceNextLineWith(a:char) . "yykkVp"
-"endf
- 
-"function! AppendLineOf(char)
-"    return "yypVr" . a:char
-"endf
- 
-"function! SurroundWith(char)
-"    return AppendLineOf(a:char) . "yykP"
-"endf
- 
-"function! H1()
-"    let char = "="
-"    if NextLineIsOnly(char)
-"        return ReplaceSurroundingsWith(char)
-"    else
-"        return SurroundWith(char)
-"    endif
-"endf
- 
-"function! H(char)
-"    if NextLineIsOnly(a:char)
-"        return ReplaceNextLineWith(a:char)
-"    else
-"        return AppendLineOf(a:char)
-"    endif
-"endf
- 
-"nnoremap <expr> <F1> H1()
-"nnoremap <expr> <F2> H("=")
-"nnoremap <expr> <F3> H("-")
-"nnoremap <expr> <F4> H("~")
- 
- 
-" Git helper: take up to full length SHA1 under cursor and truncate to 7
-" characters; plus a Redmine specific version to tack on "commit:"
- 
-"function! TruncateToSevenChars()
-"    " Use viwo instead of b so it works even when cursor is on 1st char of word
-"    return "viwo7ld"
-"endf
- 
-"function! FormatShaForCommit()
-"    return TruncateToSevenChars() . "bicommit:\<Esc>w"
-"endf
- 
-"nnoremap <expr> <F7> FormatShaForCommit()
 
 
 
+"""""""""""""""""""old stuff
 
-
-
-"""""""""""""""""""old
-"filetype plugin indent on
-
-"set nowrap
-"set ts=4
-"set ai
-"set shiftwidth=4
-"set expandtab
-"set wildmode=longest,list
-"set hlsearch
-"set incsearch
-"set ignorecase
-"set smartcase
-"set scrolloff=2
-
-
-
-"Quick write session with F2
+" Quick write session with F2
 map <F2> :mksession! ~/.vim_session <cr>
-"And load session with F3
+" And load session with F3
+" (Disabled because I was accidentally pressing this.)
 "map <F3> :source ~/.vim_session <cr>
 
 
 "supertab
 " <C-x><C-n> local keyword completion
 " <C-x><C-o> omnicompletion
+let g:SuperTabCrMapping = 0
 let g:SuperTabDefaultCompletionType = '<c-n>'
 ""context"
 let g:SuperTabContextDefaultCompletionType = '<C-x><C-n>'
 " let g:SuperTabRetainCompletionDuration = 'completion'
-
-" make backspaces more powerful
-"set backspace=indent,eol,start
 
 "from vim-config-python-ide
 
