@@ -230,7 +230,7 @@ set tabpagemax=100
 " Make :sb let me navigate between all windows and tabs
 set switchbuf=usetab
 " only show a menu for completion, never a preview window or things like that
-set completeopt=menuone
+set completeopt=longest,menuone
 " remember lotsa fun stuff
 set viminfo=!,'1000,f1,/1000,:1000,<1000,@1000,h,n~/.viminfo
 " if you :q with changes it asks you if you want to continue or not
@@ -241,6 +241,10 @@ set ttimeoutlen=100
 set sc
 " ack > grep
 set grepprg=ack
+" fold only when I ask for it damnit!
+set foldmethod=marker
+" close a fold when I leave it
+set foldclose=all
 
 "No more middle-click paste
 nnoremap <MiddleMouse> <Nop>
@@ -259,15 +263,6 @@ inoremap <4-MiddleMouse> <Nop>
 ""  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
 ""    \| exe "normal g'\"" | endif
 ""endif
- 
-
-" Folding {{{
-" fold only when I ask for it damnit!
-set foldmethod=marker
- 
-" close a fold when I leave it
-set foldclose=all
- 
  
 
 
@@ -300,10 +295,8 @@ endif
 
 " vimrc without dot
 au BufNewFile,BufRead vimrc set filetype=vim
- 
 " Markdown
 autocmd FileType mkd setlocal ai comments=n:>
- 
 " No more need to drop modelines into common Apache files
 " (both Debian and RedHat style Apache conf dirs)
 autocmd BufRead /etc/apache2/*,/etc/httpd/* setlocal filetype=apache
@@ -454,11 +447,11 @@ endif
 "
  
 " Default to tree view
-"let g:netrw_liststyle = 3
+let g:netrw_liststyle = 3
 " Hide common hidden files
-"let g:netrw_list_hide = '.*\.py[co]$,\.git$,\.swp$'
+let g:netrw_list_hide = '.*\.py[co]$,\.git$,\.swp$'
 " Don't use frickin elinks, wtf
-"let g:netrw_http_cmd = "wget -q -O" " or 'curl -Ls -o'
+let g:netrw_http_cmd = "wget -q -O" " or 'curl -Ls -o'
 
 
 
@@ -474,15 +467,13 @@ map <F2> :mksession! ~/.vim_session <cr>
 "supertab
 " <C-x><C-n> local keyword completion
 " <C-x><C-o> omnicompletion
-let g:SuperTabCrMapping = 0
+"let g:SuperTabCrMapping = 0
 let g:SuperTabDefaultCompletionType = '<c-n>'
 ""context"
 let g:SuperTabContextDefaultCompletionType = '<C-x><C-n>'
 " let g:SuperTabRetainCompletionDuration = 'completion'
 
-"from vim-config-python-ide
-
-"python syntax highlighting
+" Python syntax highlighting
 let python_highlight_builtins = 1
 let python_highlight_exceptions = 1
 let python_highlight_string_formatting = 1
@@ -491,13 +482,4 @@ let python_highlight_string_templates = 1
 let python_highlight_indent_errors = 1
 let python_highlight_doctests = 1
 let python_slow_sync = 1
-
-
-set completeopt=longest,menuone
-
-set ofu=syntaxcomplete#Complete
-"autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 
