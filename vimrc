@@ -322,12 +322,6 @@ inoremap <down> <C-R>=pumvisible() ? "\<lt>down>" : "\<lt>C-o>gj"<Enter>
 inoremap <silent> <C-a> <ESC>u:set paste<CR>.:set nopaste<CR>gi
 "ignore indent mode for shift-backspace
 inoremap <S-BS> <Esc>xa
-"inoremap () ()<Left>
-"inoremap [] []<Left>
-"inoremap '' ''<Left>
-"inoremap ''' '''
-"inoremap "" ""<Left>
-"
 
 " Abbreviations
 iabbr `p import pdb; pdb.set_trace()
@@ -407,15 +401,13 @@ let g:fuf_mrufile_exclude = '\v\~$|\.(bak|sw[mnop])$|^(\/\/|\\\\|\/mnt\/|\/media
 let g:fuf_file_exclude = '\v\~$|dojango|\.(o|exe|dll|bak|sw[mnop]|zip|pyc|DS_Store|tar\.gz)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
 
 " ansiesc.vim
-"if exists(":AnsiEsc")
-"    exec ":AnsiEsc"
-"endif
+if exists(":AnsiEsc")
+    exec ":AnsiEsc"
+endif
 
 " Plugin settings
 let g:autoclose_on = 0
 
-" vim-powerline
-"let Powerline_theme='ae'
 " taglist.vim
 if filereadable('/usr/local/bin/ctags')
     let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
@@ -431,8 +423,15 @@ let Tlist_Process_File_Always=1
 let Tlist_Show_Menu=1
 let Tlist_Enable_Fold_Column=0
 let Tlist_Show_One_File=1
-"let g:gist_detect_filetype = 1
 
+let g:gist_detect_filetype = 1
+
+" SuperTab
+" <C-x><C-n> local keyword completion
+" <C-x><C-o> omnicompletion
+"let g:SuperTabCrMapping = 0
+let g:SuperTabDefaultCompletionType = '<c-n>'
+let g:SuperTabContextDefaultCompletionType = '<C-x><C-n>'
 
 
 " Shell cmds
@@ -464,15 +463,6 @@ map <F2> :mksession! ~/.vim_session <cr>
 " (Disabled because I was accidentally pressing this.)
 "map <F3> :source ~/.vim_session <cr>
 
-
-"supertab
-" <C-x><C-n> local keyword completion
-" <C-x><C-o> omnicompletion
-"let g:SuperTabCrMapping = 0
-let g:SuperTabDefaultCompletionType = '<c-n>'
-""context"
-let g:SuperTabContextDefaultCompletionType = '<C-x><C-n>'
-" let g:SuperTabRetainCompletionDuration = 'completion'
 
 " Python syntax highlighting
 let python_highlight_builtins = 1
