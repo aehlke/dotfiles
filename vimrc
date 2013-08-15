@@ -18,32 +18,49 @@ Bundle 'michaeljsmith/vim-indent-object.git'
 "Bundle 'hallettj/jshint'
 " See https://github.com/hallettj/jslint.vim for installation docs.
 
+Bundle 'bufkill.vim'
 Bundle 'Puppet-Syntax-Highlighting'
 Bundle 'bkad/CamelCaseMotion.git'
 Bundle 'ervandew/supertab'
-Bundle 'indentpython'
+Bundle 'gg/python.vim'
 Bundle 'inkarkat/argtextobj.vim.git'
 Bundle 'iynaix/django.vim'
 Bundle 'kana/vim-textobj-django-template.git'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'kien/ctrlp.vim'
 Bundle 'nginx.vim'
+Bundle 'AnsiEsc.vim'
 Bundle 'skammer/vim-css-color'
 Bundle 'pangloss/vim-javascript'
-Bundle 'vim-scripts/python.vim--Vasiliev'
+Bundle 'python.vim--Vasiliev'
 Bundle 'ervandew/supertab'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'ervandew/supertab'
+Bundle 'klen/python-mode'
+Bundle 'Glench/Vim-Jinja2-Syntax'
+Bundle 'aehlke/vim-rename3'
+"Bundle 'scrooloose/syntastic'
+Bundle 'groenewege/vim-less'
+Bundle 'mattn/webapi-vim'
+Bundle 'mattn/gist-vim'
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-fugitive'
+Bundle 'godlygeek/tabular'
 
 Bundle 'indenthtml.vim'
 " Possible alternative: 'https://github.com/djcp/my_vim/blob/master/indent/html.vim'
 
 "
 " Run :BundleInstall to install the above bundles,
-" or :BundleInstall! to update existing bundles.
+"  or :BundleInstall! to update existing bundles.
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""
 
+"
+" Useful references:
+"
+" python-mode keyboard shortcuts:
+"   https://github.com/klen/python-mode#id18
 
 
 let canvas_dir = "/var/canvas/website"
@@ -63,6 +80,8 @@ filetype detect
 set nocompatible
 " Set the default file encoding to UTF-8:
 set encoding=utf-8
+" command line history
+set history=400
  
 " Colorization/display
  
@@ -90,8 +109,7 @@ set showmode
 set lazyredraw
 " threshold for reporting number of lines changed
 set report=0
-"}}}
-" Make vim less whiny {{{
+" Make vim less whiny
 " :bn with a change in the current buffer? no prob!
 set hidden
 " no bells whatsoever
@@ -224,6 +242,8 @@ set nomore
 " Use bash-like tab completion in Vim command line
 set wildmenu
 set wildmode=list:longest
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
 " Allow backspaces to eat indents, end-of-line/beginning-of-line characters
 set backspace=indent,eol,start
 " Let me open a shitton of tabs at once if I really want.
@@ -247,7 +267,8 @@ set foldmethod=marker
 " close a fold when I leave it
 set foldclose=all
 
-"No more middle-click paste
+
+" No more middle-click paste
 nnoremap <MiddleMouse> <Nop>
 nnoremap <2-MiddleMouse> <Nop>
 nnoremap <3-MiddleMouse> <Nop>
@@ -278,10 +299,9 @@ if has("gui_macvim")
     colorscheme rdark_ae
     " Colorize for a dark background
     set background=dark
-"    set transparency=5
     "set guifont=Inconsolata:h14
     set guifont=Menlo\ Regular:h12
-    "set lines=110
+    set lines=999
     set formatoptions-=t
     set formatoptions-=c
     set guioptions-=L
@@ -295,12 +315,14 @@ endif
 "
 
 " vimrc without dot
-au BufNewFile,BufRead vimrc set filetype=vim
+au BufNewFile,BufRead,BufWritePost vimrc set filetype=vim
 " Markdown
 autocmd FileType mkd setlocal ai comments=n:>
 " No more need to drop modelines into common Apache files
 " (both Debian and RedHat style Apache conf dirs)
 autocmd BufRead /etc/apache2/*,/etc/httpd/* setlocal filetype=apache
+" Hide stupid files
+let g:explHideFiles='^\.,.*\.class$,.*\.swp$,.*\.pyc$,.*\.swo$,\.DS_Store$'
  
 
 "
@@ -316,9 +338,22 @@ inoremap <up> <C-R>=pumvisible() ? "\<lt>up>" : "\<lt>C-o>gk"<Enter>
 map <down> gj
 inoremap <down> <C-R>=pumvisible() ? "\<lt>down>" : "\<lt>C-o>gj"<Enter>
  
+" For when you forget to sudo. Really Write the file.
+cmap w!! w !sudo tee % >/dev/null
+
+" Go to specific tabs like you can in Chrome.
+map <D-1> 1gt
+map <D-2> 2gt
+map <D-3> 3gt
+map <D-4> 4gt
+map <D-5> 5gt
+map <D-6> 6gt
+map <D-7> 7gt
+map <D-8> 8gt
+map <D-9> 1gtgT
  
 " Insert-mode remappings
-" Hit <C-a> in insert mode after a bad paste (thanks absolon) {{{
+" Hit <C-a> in insert mode after a bad paste (thanks absolon)
 inoremap <silent> <C-a> <ESC>u:set paste<CR>.:set nopaste<CR>gi
 "ignore indent mode for shift-backspace
 inoremap <S-BS> <Esc>xa
@@ -327,8 +362,10 @@ inoremap <S-BS> <Esc>xa
 iabbr `p import pdb; pdb.set_trace()
 iabbr `l import logging; logger = logging.getLogger('gunicorn'); logger.info()
 
+" ctrl-b is stupid.
+cnoremap <c-a> <home> 
 
-" Normal-mode remappings {{{
+" Normal-mode remappings
 nore ; :
 nore \ ;
 " spacebar (in command mode) inserts a single character before the cursor
@@ -405,15 +442,32 @@ if exists(":AnsiEsc")
     exec ":AnsiEsc"
 endif
 
-" Plugin settings
-let g:autoclose_on = 0
-
 " taglist.vim
 if filereadable('/usr/local/bin/ctags')
     let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
 elseif filereadable('/opt/local/bin/ctags')
     let Tlist_Ctags_Cmd='/opt/local/bin/ctags'
 endif
+
+" python-mode
+" Disable default pymode options (which adds things like "setlocal number")
+let g:pymode_options = 0
+let g:pymode_lint_write = 0
+let g:pymode_lint = 0
+let g:pymode_rope = 1
+let g:pymode_folding = 0
+let pymode_rope_extended_complete = 1
+let g:pymode_rope_autoimport_modules = ["os.*","django.*","lxml.*","shutil","datetime"]
+exec(":RopeGenerateAutoimportCache")
+" Autoremove unused whitespaces
+let g:pymode_utils_whitespaces = 0
+" Enable pymode indentation
+let g:pymode_indent = 1
+
+
+
+" gist-vim (https://github.com/mattn/gist-vim)
+let g:gist_detect_filetype = 1
 
 " auto-update ctags on save
 " actually don't, it's slow.
@@ -432,6 +486,12 @@ let g:gist_detect_filetype = 1
 "let g:SuperTabCrMapping = 0
 let g:SuperTabDefaultCompletionType = '<c-n>'
 let g:SuperTabContextDefaultCompletionType = '<C-x><C-n>'
+
+" Python syntax highlighting
+let python_highlight_space_errors = 0
+let python_highlight_indent_errors = 0
+let python_highlight_all = 1
+let python_slow_sync = 1
 
 
 " Shell cmds
@@ -454,7 +514,6 @@ let g:netrw_list_hide = '.*\.py[co]$,\.git$,\.swp$'
 let g:netrw_http_cmd = "wget -q -O" " or 'curl -Ls -o'
 
 
-
 """""""""""""""""""old stuff
 
 " Quick write session with F2
@@ -464,13 +523,4 @@ map <F2> :mksession! ~/.vim_session <cr>
 "map <F3> :source ~/.vim_session <cr>
 
 
-" Python syntax highlighting
-let python_highlight_builtins = 1
-let python_highlight_exceptions = 1
-let python_highlight_string_formatting = 1
-let python_highlight_string_format = 1
-let python_highlight_string_templates = 1
-let python_highlight_indent_errors = 1
-let python_highlight_doctests = 1
-let python_slow_sync = 1
 
