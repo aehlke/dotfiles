@@ -8,12 +8,12 @@ Bundle 'gmarik/vundle'
 " My bundles:
 "
 
-Bundle 'L9'
-Bundle 'FuzzyFinder'
+"Bundle 'L9'
+"Bundle 'FuzzyFinder'
 " L9 is a FuzzyFinder dependency.
 
 Bundle 'michaeljsmith/vim-indent-object.git'
-" Adds a text-object 'i' (so you can do e.g. vii)
+" Adds a text-object 'i' (so you can do e.g. vii to select indent level.)
 
 "Bundle 'hallettj/jshint'
 " See https://github.com/hallettj/jslint.vim for installation docs.
@@ -27,7 +27,7 @@ Bundle 'inkarkat/argtextobj.vim.git'
 Bundle 'iynaix/django.vim'
 Bundle 'kana/vim-textobj-django-template.git'
 Bundle 'kchmck/vim-coffee-script'
-Bundle 'kien/ctrlp.vim'
+"Bundle 'kien/ctrlp.vim'
 Bundle 'nginx.vim'
 Bundle 'AnsiEsc.vim'
 Bundle 'skammer/vim-css-color'
@@ -37,7 +37,7 @@ Bundle 'ervandew/supertab'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'ervandew/supertab'
 Bundle 'klen/python-mode'
-Bundle 'Glench/Vim-Jinja2-Syntax'
+Bundle 'mitsuhiko/vim-jinja'
 Bundle 'aehlke/vim-rename3'
 "Bundle 'scrooloose/syntastic'
 Bundle 'groenewege/vim-less'
@@ -46,6 +46,20 @@ Bundle 'mattn/gist-vim'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-fugitive'
 Bundle 'godlygeek/tabular'
+
+Bundle 'Shougo/vimproc.vim'
+Bundle 'Shougo/unite.vim'
+Bundle 'zhaocai/unite-help'
+" vimproc.vim is a unite.vim dependency.
+" To build it, run: cd ~/.vim/bundle/vimproc.vim ; make -f make_mac.mak
+" It's also faster to use a lua-enabled (if_lua) vim: brew install macvim --with-cscope --with-lua --override-system-vim --HEAD
+" See http://bling.github.io/blog/2013/06/02/unite-dot-vim-the-plugin-you-didnt-know-you-need/
+" and below for mappings.
+
+Bundle 'rizzatti/funcoo.vim'
+Bundle 'rizzatti/dash.vim'
+" Provides :Dash family of commands for Dash.app
+" https://itunes.apple.com/us/app/dash-docs-snippets/id458034879?mt=12
 
 Bundle 'indenthtml.vim'
 " Possible alternative: 'https://github.com/djcp/my_vim/blob/master/indent/html.vim'
@@ -363,13 +377,11 @@ iabbr `p import pdb; pdb.set_trace()
 iabbr `l import logging; logger = logging.getLogger('gunicorn'); logger.info()
 
 " ctrl-b is stupid.
-cnoremap <c-a> <home> 
+cnoremap <c-a> <home>
 
 " Normal-mode remappings
 nore ; :
 nore \ ;
-" spacebar (in command mode) inserts a single character before the cursor
-nmap <Space> i <Esc>r
 nmap <C-N> :nohl<CR>
 " window switching
 nmap <C-Up> <C-w><C-k>
@@ -449,6 +461,67 @@ elseif filereadable('/opt/local/bin/ctags')
     let Tlist_Ctags_Cmd='/opt/local/bin/ctags'
 endif
 
+" unite.vim
+" Borrowed from https://github.com/bling/dotvim/blob/master/vimrc
+nmap <space> [unite]
+nnoremap [unite] <nop>
+nnoremap <silent> [unite]<space> :<C-u>Unite -toggle -auto-resize -buffer-name=mixed -resume file_rec/async:! buffer file_mru bookmark<cr><c-u>
+nnoremap <silent> [unite]f :<C-u>Unite -toggle -auto-resize -buffer-name=files -resume file_rec/async:!<cr><c-u>
+nnoremap <silent> [unite]F :<C-u>Unite -toggle -auto-resize -auto-preview -buffer-name=files -resume file_rec/async:!<cr><c-u>
+nnoremap <silent> [unite]r :<C-u>Unite -toggle -auto-resize -buffer-name=recent -resume file_mru<cr><c-u>
+nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
+nnoremap <silent> [unite]l :<C-u>Unite -auto-resize -buffer-name=line line<cr>
+nnoremap <silent> [unite]b :<C-u>Unite -auto-resize -buffer-name=buffers buffer<cr>
+nnoremap <silent> [unite]/ :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
+nnoremap <silent> [unite]m :<C-u>Unite -auto-resize -buffer-name=mappings mapping<cr>
+nnoremap <silent> [unite]s :<C-u>Unite -quick-match buffer<cr>
+nnoremap <silent> [unite]j :<C-u>Unite -auto-resize -buffer-name=junk junkfile junkfile/new<cr>
+let g:unite_data_directory = '~/.vim/.cache/unite'
+let g:unite_enable_start_insert = 1
+let g:unite_source_history_yank_enable = 1
+let g:unite_source_rec_max_cache_files = 5000
+let g:unite_prompt = '» '
+" Faster update time after keypresses
+let g:unite_update_time = 200
+if executable('ag')
+    let g:unite_source_grep_command='ag'
+    let g:unite_source_grep_default_opts='--nocolor --nogroup -S -C4'
+    let g:unite_source_grep_recursive_opt=''
+elseif executable('ack')
+    let g:unite_source_grep_command='ack'
+    let g:unite_source_grep_default_opts='--no-heading --no-color -a -C4'
+    let g:unite_source_grep_recursive_opt=''
+endif
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+call unite#set_profile('files', 'smartcase', 1)
+call unite#custom#source('line,outline','matchers','matcher_fuzzy')
+function! s:unite_settings()
+    nmap <buffer> Q <plug>(unite_exit)
+    nmap <buffer> <esc> <plug>(unite_exit)
+    imap <buffer> <esc> <plug>(unite_exit)
+    inoremap <silent><buffer><expr> <C-j> unite#do_action('split')
+    nnoremap <silent><buffer><expr> <C-j> unite#do_action('split')
+    inoremap <silent><buffer><expr> <C-k> unite#do_action('vsplit')
+    nnoremap <silent><buffer><expr> <C-k> unite#do_action('vsplit')
+endfunction
+autocmd FileType unite call s:unite_settings()
+call unite#custom#source('buffer,file,file_rec/async,file_rec,file_mru,file,grep',
+    \ 'ignore_pattern', join([
+    \ 'canvas/analytics/', 'canvas/chrome/', 'canvas/chrome_internal/', 
+    \ 'canvas/deploy/', 'canvas/common/', 'canvas/shell/', 'canvas/scripts/',
+    \ 'canvas/requirements/', 'canvas/common/', 'canvas/shell/', 'canvas/scripts/',
+    \ 'canvas/website/static/css/', 'canvas/website/run/', 'CACHE/',
+    \ 'canvas/website/caja/', 'canvas/website/load_tests/', 'canvas/website/static/bookmarklet/',
+    \ 'canvas/website/static/lib/', 'canvas/website/run/email/', 'canvas/website/debug_toolbar/',
+    \ 'canvas/website/static/img/', 'canvas/website/static/font/', 'canvas/website/static/admin/',
+    \ 'canvas/website/compressor/', 'canvas/website/run/sent_mail.log/', 'migrations/',
+    \ '\.sass-cache', '\.ropeproject', '\.ec2/',
+    \ '\.pyc$', '\.png$', '\.jpg$', '\.gif$', '\.zip$', '\.gz$', '\.rdb$', '\.crx$', '\.jpeg$',
+    \ '\.DS_Store$', '\.gitignore$', '\.pdf$', '\.db$', '\.pid$', '\.ico$',
+    \ '\.nodeids$', '\.sv.$', '\.gitmodules$',
+    \ ], '\|'))
+
 " python-mode
 " Disable default pymode options (which adds things like "setlocal number")
 let g:pymode_options = 0
@@ -522,5 +595,6 @@ map <F2> :mksession! ~/.vim_session <cr>
 " (Disabled because I was accidentally pressing this.)
 "map <F3> :source ~/.vim_session <cr>
 
-
+" stupid hack, so % kills .vimrc source highlighting for some reason.
+set filetype=vim
 
