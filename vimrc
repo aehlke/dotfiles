@@ -12,8 +12,8 @@ Bundle 'gmarik/vundle'
 "Bundle 'FuzzyFinder'
 " L9 is a FuzzyFinder dependency.
 
-Bundle 'michaeljsmith/vim-indent-object.git'
 " Adds a text-object 'i' (so you can do e.g. vii to select indent level.)
+Bundle 'michaeljsmith/vim-indent-object.git'
 
 "Bundle 'hallettj/jshint'
 " See https://github.com/hallettj/jslint.vim for installation docs.
@@ -47,22 +47,29 @@ Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-fugitive'
 Bundle 'godlygeek/tabular'
 
-Bundle 'Shougo/vimproc.vim'
-Bundle 'Shougo/unite.vim'
-Bundle 'zhaocai/unite-help'
+" Objective-C plugins.
+Bundle 'Rip-Rip/clang_complete'
+Bundle 'guns/ultisnips'
+Bundle 'b4winckler/vim-objc'
+Bundle 'eraserhd/vim-ios'
+
 " vimproc.vim is a unite.vim dependency.
 " To build it, run: cd ~/.vim/bundle/vimproc.vim ; make -f make_mac.mak
 " It's also faster to use a lua-enabled (if_lua) vim: brew install macvim --with-cscope --with-lua --override-system-vim --HEAD
 " See http://bling.github.io/blog/2013/06/02/unite-dot-vim-the-plugin-you-didnt-know-you-need/
 " and below for mappings.
+Bundle 'Shougo/vimproc.vim'
+Bundle 'Shougo/unite.vim'
+Bundle 'zhaocai/unite-help'
 
-Bundle 'rizzatti/funcoo.vim'
-Bundle 'rizzatti/dash.vim'
 " Provides :Dash family of commands for Dash.app
 " https://itunes.apple.com/us/app/dash-docs-snippets/id458034879?mt=12
+Bundle 'rizzatti/funcoo.vim'
+Bundle 'rizzatti/dash.vim'
 
 Bundle 'indenthtml.vim'
 " Possible alternative: 'https://github.com/djcp/my_vim/blob/master/indent/html.vim'
+
 
 "
 " Run :BundleInstall to install the above bundles,
@@ -365,7 +372,7 @@ map <D-6> 6gt
 map <D-7> 7gt
 map <D-8> 8gt
 map <D-9> 1gtgT
- 
+
 " Insert-mode remappings
 " Hit <C-a> in insert mode after a bad paste (thanks absolon)
 inoremap <silent> <C-a> <ESC>u:set paste<CR>.:set nopaste<CR>gi
@@ -449,6 +456,9 @@ let g:fuf_mrufile_exclude = '\v\~$|\.(bak|sw[mnop])$|^(\/\/|\\\\|\/mnt\/|\/media
 " Ignore the dojango directory since it's huge and spammy
 let g:fuf_file_exclude = '\v\~$|dojango|\.(o|exe|dll|bak|sw[mnop]|zip|pyc|DS_Store|tar\.gz)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
 
+" vim-ios
+nmap <leader>h :A<CR>
+
 " ansiesc.vim
 if exists(":AnsiEsc")
     exec ":AnsiEsc"
@@ -460,6 +470,21 @@ if filereadable('/usr/local/bin/ctags')
 elseif filereadable('/opt/local/bin/ctags')
     let Tlist_Ctags_Cmd='/opt/local/bin/ctags'
 endif
+
+" clang_autocomplete
+" Borrowed from http://appventure.me/2013/01/use-vim-as-xcode-alternative-ios-mac-cocoa.html
+" Disable auto completion, always <c-x> <c-o> to complete
+let g:clang_complete_auto = 0
+let g:clang_use_library = 1
+let g:clang_periodic_quickfix = 0
+let g:clang_close_preview = 1
+" For Objective-C, this needs to be active, otherwise multi-parameter methods won't be completed correctly.
+let g:clang_snippets = 1
+" Snipmate does not work anymore, ultisnips is the recommended plugin.
+let g:clang_snippets_engine = 'ultisnips'
+" This might change depending on your installation.
+let g:clang_exec = '/usr/local/bin/clang'
+let g:clang_library_path = '/usr/local/lib/libclang.dylib'
 
 " unite.vim
 " Borrowed from https://github.com/bling/dotvim/blob/master/vimrc

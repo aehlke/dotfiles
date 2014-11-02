@@ -9,4 +9,5 @@
 *.swo
 *.swp
 vim/.netrwhist
-
+vim/bundle/
+vim/.cache/
