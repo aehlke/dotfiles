@@ -46,6 +46,7 @@ Bundle 'mattn/gist-vim'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-fugitive'
 Bundle 'godlygeek/tabular'
+Bundle 'chase/vim-ansible-yaml'
 
 " Objective-C plugins.
 Bundle 'Rip-Rip/clang_complete'
@@ -62,6 +63,8 @@ Bundle 'Shougo/vimproc.vim'
 Bundle 'Shougo/unite.vim'
 Bundle 'zhaocai/unite-help'
 
+"Bundle 'rizzatti/funcoo.vim'
+"Bundle 'rizzatti/dash.vim'
 " Provides :Dash family of commands for Dash.app
 " https://itunes.apple.com/us/app/dash-docs-snippets/id458034879?mt=12
 Bundle 'rizzatti/funcoo.vim'
