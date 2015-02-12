@@ -559,7 +559,7 @@ let g:pymode_rope = 1
 let g:pymode_folding = 0
 let pymode_rope_extended_complete = 1
 let g:pymode_rope_autoimport_modules = ["os.*","django.*","lxml.*","shutil","datetime"]
-exec(":RopeGenerateAutoimportCache")
+"exec(":RopeGenerateAutoimportCache")
 " Autoremove unused whitespaces
 let g:pymode_utils_whitespaces = 0
 " Enable pymode indentation
