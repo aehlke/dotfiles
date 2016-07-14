@@ -45,12 +45,9 @@ Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-fugitive'
 Bundle 'godlygeek/tabular'
 Bundle 'chase/vim-ansible-yaml'
+Bundle 'fisadev/vim-isort'
+Bundle 'editorconfig/editorconfig-vim'
 
-" Objective-C plugins.
-Bundle 'Rip-Rip/clang_complete'
-Bundle 'guns/ultisnips'
-Bundle 'b4winckler/vim-objc'
-Bundle 'eraserhd/vim-ios'
 
 " vimproc.vim is a unite.vim dependency.
 " To build it, run: cd ~/.vim/bundle/vimproc.vim ; make -f make_mac.mak
@@ -104,9 +101,9 @@ set nocompatible
 set encoding=utf-8
 " command line history
 set history=400
- 
+
 " Colorization/display
- 
+
 " Syntax highlighting!
 syntax on
 "if &term=="builtin_gui"
@@ -155,7 +152,7 @@ endif
 "    "3e2426
 "    "autocmd BufRead * match OverLength /\%>80v.\+/
 "augroup END
- 
+
 " a - terse messages (like [+] instead of [Modified]
 " o - don't show both reading and writing messages if both occur at once
 " t - truncate file names
@@ -171,7 +168,7 @@ set shortmess=aotTWI
 
 
 " Navigation/search
- 
+
 " Show matching brackets/parentheses when navigating around
 set showmatch
 " Show matching parens in 2/10 of a second. No idea why I wanted this.
@@ -194,7 +191,7 @@ set mouse=a
 
 
 " Formatting
- 
+
 " Automatically indent based on current filetype
 set autoindent
 " Don't unindent when I press Enter on an indented line
@@ -237,7 +234,7 @@ set shiftround
 " Behavior
 
 " <Leader> key
-let mapleader = "," 
+let mapleader = ","
 
 " auto-reload vimrc on write
 " autocmd! BufWritePost .vimrc source %
@@ -307,13 +304,13 @@ inoremap <4-MiddleMouse> <Nop>
 ""  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
 ""    \| exe "normal g'\"" | endif
 ""endif
- 
+
 
 
 "
 " Settings for specific versions of Vim
 "
- 
+
 " MacVim
 if has("gui_macvim")
     set t_Co=256
@@ -330,8 +327,8 @@ if has("gui_macvim")
     set guioptions-=R
     set guioptions-=T " Toolbars suck.
 endif
- 
- 
+
+
 "
 " Settings for specific filetypes
 "
@@ -345,12 +342,13 @@ autocmd FileType mkd setlocal ai comments=n:>
 autocmd BufRead /etc/apache2/*,/etc/httpd/* setlocal filetype=apache
 " Hide stupid files
 let g:explHideFiles='^\.,.*\.class$,.*\.swp$,.*\.pyc$,.*\.swo$,\.DS_Store$'
- 
+" 2-space tabs for YAML
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 "
 " Key mappings
 "
- 
+
 " Up/down go visually instead of by physical lines (useful for long wraps)
 " Interactive ones need to check whether we're in the autocomplete popup (which
 " breaks if we remap to gk/gj)
@@ -359,7 +357,7 @@ map <up> gk
 inoremap <up> <C-R>=pumvisible() ? "\<lt>up>" : "\<lt>C-o>gk"<Enter>
 map <down> gj
 inoremap <down> <C-R>=pumvisible() ? "\<lt>down>" : "\<lt>C-o>gj"<Enter>
- 
+
 " For when you forget to sudo. Really Write the file.
 cmap w!! w !sudo tee % >/dev/null
 
@@ -534,7 +532,7 @@ endfunction
 autocmd FileType unite call s:unite_settings()
 call unite#custom#source('buffer,file,file_rec/async,file_rec,file_mru,file,grep',
     \ 'ignore_pattern', join([
-    \ 'canvas/analytics/', 'canvas/chrome/', 'canvas/chrome_internal/', 
+    \ 'canvas/analytics/', 'canvas/chrome/', 'canvas/chrome_internal/',
     \ 'canvas/deploy/', 'canvas/common/', 'canvas/shell/', 'canvas/scripts/',
     \ 'canvas/requirements/', 'canvas/common/', 'canvas/shell/', 'canvas/scripts/',
     \ 'canvas/website/static/css/', 'canvas/website/run/', 'CACHE/',
@@ -553,15 +551,18 @@ call unite#custom#source('buffer,file,file_rec/async,file_rec,file_mru,file,grep
 let g:pymode_options = 0
 let g:pymode_lint_write = 0
 let g:pymode_lint = 0
-let g:pymode_rope = 1
+let g:pymode_rope = 0
 let g:pymode_folding = 0
-let pymode_rope_extended_complete = 1
+let pymode_rope_extended_complete = 0
 let g:pymode_rope_autoimport_modules = ["os.*","django.*","lxml.*","shutil","datetime"]
 "exec(":RopeGenerateAutoimportCache")
 " Autoremove unused whitespaces
 let g:pymode_utils_whitespaces = 0
 " Enable pymode indentation
 let g:pymode_indent = 1
+
+" vim-isort
+nmap <leader>i :Isort<CR>
 
 
 
@@ -604,7 +605,7 @@ endif
 "
 " netrw (builtin file-browser plugin) preferences
 "
- 
+
 " Default to tree view
 let g:netrw_liststyle = 3
 " Hide common hidden files
