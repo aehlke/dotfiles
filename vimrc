@@ -1,79 +1,54 @@
-" Vundle
-" (See https://github.com/gmarik/vundle )
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-Bundle 'gmarik/vundle'
+" dein Scripts-----------------------------
+if &compatible
+  set nocompatible               " Be iMproved
+endif
+" Required:
+set runtimepath+=/Users/alex/dotfiles/vim/dein/./repos/github.com/Shougo/dein.vim
+" Required:
+call dein#begin('/Users/alex/dotfiles/vim/dein/.')
+" Let dein manage dein
+" Required:
+call dein#add('Shougo/dein.vim')
 
-"
-" My bundles:
-"
+" You can specify revision/branch/tag.
+" call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
 
-"Bundle 'L9'
-"Bundle 'FuzzyFinder'
-" L9 is a FuzzyFinder dependency.
+" My dein scripts:
+"call dein#add('Shougo/neosnippet.vim')
+"call dein#add('Shougo/neosnippet-snippets')
+call dein#add('qpkorr/vim-bufkill')
+call dein#add('bkad/CamelCaseMotion')
+call dein#add('ervandew/supertab')
+call dein#add('hdima/python-syntax')
+call dein#add('tweekmonster/django-plus.vim')
+call dein#add('nginx.vim')
+call dein#add('powerman/vim-plugin-AnsiEsc')
+call dein#add('ap/vim-css-color')
+call dein#add('pangloss/vim-javascript')
+call dein#add('scrooloose/nerdcommenter')
+call dein#add('lepture/vim-jinja')
+call dein#add('mattn/gist-vim', {'depends': 'mattn/webapi-vim'})
+call dein#add('tpope/vim-surround')
+call dein#add('tpope/vim-fugitive')
+call dein#add('maralla/validator.vim')
+call dein#add('pearofducks/ansible-vim')
+call dein#add('fisadev/vim-isort')
+call dein#add('editorconfig/editorconfig-vim')
+call dein#add('michaeljsmith/vim-indent-object')
+call dein#add('rizzatti/dash.vim')
 
-" Adds a text-object 'i' (so you can do e.g. vii to select indent level.)
-Bundle 'michaeljsmith/vim-indent-object.git'
+" Required:
+call dein#end()
+" Required:
+filetype plugin indent on
+syntax enable
 
-"Bundle 'hallettj/jshint'
-" See https://github.com/hallettj/jslint.vim for installation docs.
+" If you want to install not installed plugins on startup.
+if dein#check_install()
+  call dein#install()
+endif
+" End dein Scripts-------------------------
 
-Bundle 'bufkill.vim'
-Bundle 'Puppet-Syntax-Highlighting'
-Bundle 'bkad/CamelCaseMotion.git'
-Bundle 'ervandew/supertab'
-Bundle 'gg/python.vim'
-Bundle 'inkarkat/argtextobj.vim.git'
-Bundle 'iynaix/django.vim'
-Bundle 'kana/vim-textobj-django-template.git'
-Bundle 'kchmck/vim-coffee-script'
-"Bundle 'kien/ctrlp.vim'
-Bundle 'nginx.vim'
-Bundle 'AnsiEsc.vim'
-Bundle 'skammer/vim-css-color'
-Bundle 'pangloss/vim-javascript'
-Bundle 'python.vim--Vasiliev'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'klen/python-mode'
-Bundle 'mitsuhiko/vim-jinja'
-Bundle 'aehlke/vim-rename3'
-"Bundle 'scrooloose/syntastic'
-Bundle 'groenewege/vim-less'
-Bundle 'mattn/webapi-vim'
-Bundle 'mattn/gist-vim'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-fugitive'
-Bundle 'godlygeek/tabular'
-Bundle 'chase/vim-ansible-yaml'
-Bundle 'fisadev/vim-isort'
-Bundle 'editorconfig/editorconfig-vim'
-
-
-" vimproc.vim is a unite.vim dependency.
-" To build it, run: cd ~/.vim/bundle/vimproc.vim ; make -f make_mac.mak
-" It's also faster to use a lua-enabled (if_lua) vim: brew install macvim --with-cscope --with-lua --override-system-vim --HEAD
-" See http://bling.github.io/blog/2013/06/02/unite-dot-vim-the-plugin-you-didnt-know-you-need/
-" and below for mappings.
-Bundle 'Shougo/vimproc.vim'
-Bundle 'Shougo/unite.vim'
-Bundle 'zhaocai/unite-help'
-
-"Bundle 'rizzatti/funcoo.vim'
-"Bundle 'rizzatti/dash.vim'
-" Provides :Dash family of commands for Dash.app
-" https://itunes.apple.com/us/app/dash-docs-snippets/id458034879?mt=12
-Bundle 'rizzatti/funcoo.vim'
-Bundle 'rizzatti/dash.vim'
-
-Bundle 'indenthtml.vim'
-" Possible alternative: 'https://github.com/djcp/my_vim/blob/master/indent/html.vim'
-
-
-"
-" Run :BundleInstall to install the above bundles,
-"  or :BundleInstall! to update existing bundles.
-"
-""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "
 " Useful references:
@@ -342,8 +317,6 @@ autocmd FileType mkd setlocal ai comments=n:>
 autocmd BufRead /etc/apache2/*,/etc/httpd/* setlocal filetype=apache
 " Hide stupid files
 let g:explHideFiles='^\.,.*\.class$,.*\.swp$,.*\.pyc$,.*\.swo$,\.DS_Store$'
-" 2-space tabs for YAML
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 "
 " Key mappings
@@ -485,6 +458,16 @@ let g:clang_snippets_engine = 'ultisnips'
 let g:clang_exec = '/usr/local/bin/clang'
 let g:clang_library_path = '/usr/local/lib/libclang.dylib'
 
+" nerdcommenter
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+
 " unite.vim
 " Borrowed from https://github.com/bling/dotvim/blob/master/vimrc
 nmap <space> [unite]
@@ -625,3 +608,6 @@ map <F2> :mksession! ~/.vim_session <cr>
 " stupid hack, so % kills .vimrc source highlighting for some reason.
 set filetype=vim
 
+" TODO: Next things to add
+" - undodir ( https://www.reddit.com/r/vim/comments/55ky40/whats_one_thing_everyone_should_have_in_their/d8c9abp )
+" https://github.com/maralla/validator.vim
