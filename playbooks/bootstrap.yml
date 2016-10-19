@@ -1,0 +1,7 @@
+---
+
+- name: Bootstrap my environment
+  hosts: localhost
+  roles:
+      - powerline
+      - python

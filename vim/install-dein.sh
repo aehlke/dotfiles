@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-FILE_DIR=`dirname "$(readlink -f "$0")"`
+FILE_DIR=`dirname "$(stat -f "$0")"`
 cd $FILE_DIR
 
 mkdir -p ./dein

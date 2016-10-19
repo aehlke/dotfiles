@@ -1,0 +1,36 @@
+---
+
+- name: Clone Powerline fonts
+  git:
+    repo: git@github.com:powerline/fonts.git
+    dest: /tmp/powerline-fonts
+    accept_hostkey: yes
+    depth: 1
+    update: yes
+  become: yes
+
+- name: Install Powerline fonts
+  command: /tmp/powerline-fonts/install.sh
+  become: yes
+
+- name: Clone Powerline
+  git:
+    repo: git@github.com:banga/powerline-shell.git
+    dest: /tmp/powerline
+    accept_hostkey: yes
+    depth: 1
+    update: yes
+
+- name: Copy Powerline configuration
+  template:
+    src: config.py.j2
+    dest: /tmp/powerline/config.py
+
+- name: Generate powerline-shell.py
+  command: /tmp/powerline/install.py
+  args:
+    chdir: /tmp/powerline
+
+- name: Install powerline-shell.py
+  command: mv /tmp/powerline/powerline-shell.py /usr/local/bin
+  become: yes
