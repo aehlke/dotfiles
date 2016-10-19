@@ -1,7 +1,0 @@
-*.pyc
-
-*.log
-
-tests/test_cython.c
-.ropeproject
-.cache

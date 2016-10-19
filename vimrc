@@ -20,6 +20,7 @@ call dein#add('qpkorr/vim-bufkill')
 call dein#add('bkad/CamelCaseMotion')
 call dein#add('ervandew/supertab')
 call dein#add('hdima/python-syntax')
+call dein#add('hynek/vim-python-pep8-indent')
 call dein#add('tweekmonster/django-plus.vim')
 call dein#add('nginx.vim')
 call dein#add('powerman/vim-plugin-AnsiEsc')
@@ -611,3 +612,6 @@ set filetype=vim
 " TODO: Next things to add
 " - undodir ( https://www.reddit.com/r/vim/comments/55ky40/whats_one_thing_everyone_should_have_in_their/d8c9abp )
 " https://github.com/maralla/validator.vim
+" https://github.com/vim-ctrlspace/vim-ctrlspace
+" https://github.com/gcmt/taboo.vim Customize the look of tabs.
+" http://vi.stackexchange.com/questions/9880/retitling-tab-labels/9881#9881
