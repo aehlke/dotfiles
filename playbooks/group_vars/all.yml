@@ -1,0 +1,16 @@
+homebrew_cask_apps:
+  #- google-chrome
+  - acorn
+  - charles
+  - disk-inventory-x
+  - dropbox
+  - firefox
+  - iterm2
+  - keepingyouawake
+  - macvim
+  - pgadmin4
+  - postgres
+  - transmission
+  - transmit
+  - keka
+  - vlc

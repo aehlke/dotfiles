@@ -4,4 +4,48 @@
   hosts: localhost
   roles:
       - powerline
-      - python
+      - { name: 'oh-my-zsh', tags: zsh }
+      - { name: vim, tags: vim }
+
+  tasks:
+    - name: Install common homebrew tools
+      homebrew:
+        name: '{{ item }}'
+        update_homebrew: no
+      with_items:
+        - carthage
+        - coreutils
+        - git
+        - git-lfs
+        - htop
+        - ripgrep
+        - wget
+        - mecab
+        - mecab-ipadic
+        - imagemagick
+        - zsh
+        - zsh-syntax-highlighting
+
+    - name: Install terminal font
+      shell: brew cask install caskroom/fonts/font-meslo-for-powerline
+
+    - name: Check for installed apps(casks)
+      shell: brew cask list | grep {{ item }}
+      register: installed_cask_applications
+      with_items: '{{ homebrew_cask_apps }}'
+      ignore_errors: true
+
+    - name: Install common homebrew-cask tools
+      homebrew_cask:
+        name: '{{ item }}'
+      with_items: '{{ homebrew_cask_apps }}'
+      when: item not in installed_cask_applications.results|map(attribute='stdout')
+
+    - name: Install common system-wide Python tools
+      pip:
+        name: '{{ item }}'
+      with_items:
+        - ipython
+        - bpython
+        - virtualenv
+        - virtualenvwrapper

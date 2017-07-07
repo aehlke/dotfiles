@@ -1,0 +1,13 @@
+---
+
+- name: Link vimrc configuration
+  file:
+    src: '{{ playbook_dir }}/roles/vim/files/vimrc'
+    dest: ~/.vimrc
+    state: link
+
+- name: Link vim config directory
+  file:
+    src: '{{ playbook_dir }}/roles/vim/files/vim'
+    dest: ~/.vim
+    state: link

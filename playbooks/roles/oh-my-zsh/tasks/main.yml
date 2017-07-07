@@ -1,0 +1,28 @@
+---
+
+- name: Backup existing ~/.zshrc
+  shell: if [ -f ~/.zshrc ]; then mv ~/.zshrc{,.orig}; fi
+
+- name: Clone oh-my-zsh
+  git:
+    repo: git@github.com:robbyrussell/oh-my-zsh.git
+    dest: ~/.oh-my-zsh
+
+- name: Link zshrc configuration
+  file:
+    src: '{{ playbook_dir }}/roles/oh-my-zsh/files/zshrc'
+    dest: ~/.zshrc
+    state: link
+
+- name: Set default shell to zsh
+  shell: chsh -s /bin/zsh
+  become: yes
+
+- name: Download Solarized Dark theme
+  get_url:
+    url: https://raw.githubusercontent.com/mbadolato/iTerm2-Color-Schemes/master/schemes/Solarized%20Dark%20-%20Patched.itermcolors
+    dest: /tmp/solarized_dark_patched.itermcolors
+
+- name: Install Solarized Dark theme
+  shell: open /tmp/solarized_dark_patched.itermcolors
+

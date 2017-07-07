@@ -437,13 +437,6 @@ if exists(":AnsiEsc")
     exec ":AnsiEsc"
 endif
 
-" taglist.vim
-if filereadable('/usr/local/bin/ctags')
-    let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
-elseif filereadable('/opt/local/bin/ctags')
-    let Tlist_Ctags_Cmd='/opt/local/bin/ctags'
-endif
-
 " clang_autocomplete
 " Borrowed from http://appventure.me/2013/01/use-vim-as-xcode-alternative-ios-mac-cocoa.html
 " Disable auto completion, always <c-x> <c-o> to complete
