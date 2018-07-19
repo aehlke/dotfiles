@@ -2,45 +2,48 @@
 if &compatible
   set nocompatible               " Be iMproved
 endif
-" Required:
-set runtimepath+=/Users/alex/dotfiles/vim/dein/./repos/github.com/Shougo/dein.vim
-" Required:
-call dein#begin('/Users/alex/dotfiles/vim/dein/.')
-" Let dein manage dein
-" Required:
-call dein#add('Shougo/dein.vim')
+set runtimepath+=/Users/alex/.vim/repos/github.com/Shougo/dein.vim
+if dein#load_state('/Users/alex/.vim/dein/.')
+    call dein#begin('/Users/alex/.vim/dein/.')
+    " Let dein manage dein
+    call dein#add('/Users/alex/.vim/dein/.')
 
-" You can specify revision/branch/tag.
-" call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+    " You can specify revision/branch/tag.
+    " call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
 
-" My dein scripts:
-"call dein#add('Shougo/neosnippet.vim')
-"call dein#add('Shougo/neosnippet-snippets')
-call dein#add('qpkorr/vim-bufkill')
-call dein#add('bkad/CamelCaseMotion')
-call dein#add('ervandew/supertab')
-call dein#add('hdima/python-syntax')
-call dein#add('hynek/vim-python-pep8-indent')
-call dein#add('tweekmonster/django-plus.vim')
-call dein#add('nginx.vim')
-call dein#add('powerman/vim-plugin-AnsiEsc')
-call dein#add('ap/vim-css-color')
-call dein#add('pangloss/vim-javascript')
-call dein#add('scrooloose/nerdcommenter')
-call dein#add('lepture/vim-jinja')
-call dein#add('mattn/gist-vim', {'depends': 'mattn/webapi-vim'})
-call dein#add('tpope/vim-surround')
-call dein#add('tpope/vim-fugitive')
-call dein#add('maralla/validator.vim')
-call dein#add('pearofducks/ansible-vim')
-call dein#add('fisadev/vim-isort')
-call dein#add('editorconfig/editorconfig-vim')
-call dein#add('michaeljsmith/vim-indent-object')
-call dein#add('rizzatti/dash.vim')
+    " My dein scripts:
+    call dein#add('Shougo/deoplete.nvim')
+    if !has('nvim')
+        call dein#add('roxma/nvim-yarp')
+        call dein#add('roxma/vim-hug-neovim-rpc')
+    endif
+    "call dein#add('Shougo/neosnippet.vim')
+    "call dein#add('Shougo/neosnippet-snippets')
+    call dein#add('qpkorr/vim-bufkill')
+    call dein#add('bkad/CamelCaseMotion')
+    call dein#add('ervandew/supertab')
+    call dein#add('python-mode/python-mode')
+    call dein#add('tweekmonster/django-plus.vim')
+    call dein#add('vim-scripts/nginx.vim')
+    call dein#add('powerman/vim-plugin-AnsiEsc')
+    call dein#add('ap/vim-css-color')
+    call dein#add('pangloss/vim-javascript')
+    call dein#add('scrooloose/nerdcommenter')
+    call dein#add('lepture/vim-jinja')
+    call dein#add('mattn/gist-vim', {'depends': 'mattn/webapi-vim'})
+    call dein#add('tpope/vim-surround')
+    call dein#add('tpope/vim-fugitive')
+    call dein#add('maralla/validator.vim')
+    call dein#add('pearofducks/ansible-vim')
+    call dein#add('fisadev/vim-isort')
+    call dein#add('editorconfig/editorconfig-vim')
+    call dein#add('michaeljsmith/vim-indent-object')
+    call dein#add('rizzatti/dash.vim')
 
-" Required:
-call dein#end()
-" Required:
+    call dein#end()
+    call dein#save_state()
+endif
+
 filetype plugin indent on
 syntax enable
 
@@ -462,68 +465,9 @@ let g:NERDDefaultAlign = 'left'
 " Allow commenting and inverting empty lines (useful when commenting a region)
 let g:NERDCommentEmptyLines = 1
 
-" unite.vim
-" Borrowed from https://github.com/bling/dotvim/blob/master/vimrc
-nmap <space> [unite]
-nnoremap [unite] <nop>
-nnoremap <silent> [unite]<space> :<C-u>Unite -toggle -auto-resize -buffer-name=mixed -resume file_rec/async:! buffer file_mru bookmark<cr><c-u>
-nnoremap <silent> [unite]f :<C-u>Unite -toggle -auto-resize -buffer-name=files -resume file_rec/async:!<cr><c-u>
-nnoremap <silent> [unite]F :<C-u>Unite -toggle -auto-resize -auto-preview -buffer-name=files -resume file_rec/async:!<cr><c-u>
-nnoremap <silent> [unite]r :<C-u>Unite -toggle -auto-resize -buffer-name=recent -resume file_mru<cr><c-u>
-nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
-nnoremap <silent> [unite]l :<C-u>Unite -auto-resize -buffer-name=line line<cr>
-nnoremap <silent> [unite]b :<C-u>Unite -auto-resize -buffer-name=buffers buffer<cr>
-nnoremap <silent> [unite]/ :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
-nnoremap <silent> [unite]m :<C-u>Unite -auto-resize -buffer-name=mappings mapping<cr>
-nnoremap <silent> [unite]s :<C-u>Unite -quick-match buffer<cr>
-nnoremap <silent> [unite]j :<C-u>Unite -auto-resize -buffer-name=junk junkfile junkfile/new<cr>
-let g:unite_data_directory = '~/.vim/.cache/unite'
-let g:unite_enable_start_insert = 1
-let g:unite_source_history_yank_enable = 1
-let g:unite_source_rec_max_cache_files = 5000
-let g:unite_prompt = '» '
-" Faster update time after keypresses
-let g:unite_update_time = 200
-if executable('ag')
-    let g:unite_source_grep_command='ag'
-    let g:unite_source_grep_default_opts='--nocolor --nogroup -S -C4'
-    let g:unite_source_grep_recursive_opt=''
-elseif executable('ack')
-    let g:unite_source_grep_command='ack'
-    let g:unite_source_grep_default_opts='--no-heading --no-color -a -C4'
-    let g:unite_source_grep_recursive_opt=''
-endif
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_rank'])
-call unite#set_profile('files', 'smartcase', 1)
-call unite#custom#source('line,outline','matchers','matcher_fuzzy')
-function! s:unite_settings()
-    nmap <buffer> Q <plug>(unite_exit)
-    nmap <buffer> <esc> <plug>(unite_exit)
-    imap <buffer> <esc> <plug>(unite_exit)
-    inoremap <silent><buffer><expr> <C-j> unite#do_action('split')
-    nnoremap <silent><buffer><expr> <C-j> unite#do_action('split')
-    inoremap <silent><buffer><expr> <C-k> unite#do_action('vsplit')
-    nnoremap <silent><buffer><expr> <C-k> unite#do_action('vsplit')
-endfunction
-autocmd FileType unite call s:unite_settings()
-call unite#custom#source('buffer,file,file_rec/async,file_rec,file_mru,file,grep',
-    \ 'ignore_pattern', join([
-    \ 'canvas/analytics/', 'canvas/chrome/', 'canvas/chrome_internal/',
-    \ 'canvas/deploy/', 'canvas/common/', 'canvas/shell/', 'canvas/scripts/',
-    \ 'canvas/requirements/', 'canvas/common/', 'canvas/shell/', 'canvas/scripts/',
-    \ 'canvas/website/static/css/', 'canvas/website/run/', 'CACHE/',
-    \ 'canvas/website/caja/', 'canvas/website/load_tests/', 'canvas/website/static/bookmarklet/',
-    \ 'canvas/website/static/lib/', 'canvas/website/run/email/', 'canvas/website/debug_toolbar/',
-    \ 'canvas/website/static/img/', 'canvas/website/static/font/', 'canvas/website/static/admin/',
-    \ 'canvas/website/compressor/', 'canvas/website/run/sent_mail.log/', 'migrations/',
-    \ '\.sass-cache', '\.ropeproject', '\.ec2/',
-    \ '\.pyc$', '\.png$', '\.jpg$', '\.gif$', '\.zip$', '\.gz$', '\.rdb$', '\.crx$', '\.jpeg$',
-    \ '\.DS_Store$', '\.gitignore$', '\.pdf$', '\.db$', '\.pid$', '\.ico$',
-    \ '\.nodeids$', '\.sv.$', '\.gitmodules$',
-    \ ], '\|'))
 
 " python-mode
+let g:pymode_python = 'python3'
 " Disable default pymode options (which adds things like "setlocal number")
 let g:pymode_options = 0
 let g:pymode_lint_write = 0
@@ -576,7 +520,6 @@ let ti_simulator_script = "/Users/jehlke/workspace/titanium/Manabi/simulator.sh"
 if filereadable(ti_simulator_script)
     exec "nmap <leader>m :!".ti_simulator_script."<CR>"
 endif
-
 
 
 "

@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/Users/alex/src/manabi-app/.git/modules'
+let g:netrw_dirhist_2='/Users/alex/src/manabi/manabi/apps/flashcards/models'
+let g:netrw_dirhist_3='/Users/alex/src/manabi/manabi/static/img'

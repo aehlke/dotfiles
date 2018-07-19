@@ -1,5 +1,14 @@
 ---
 
+- name: Install zsh and utilities
+  homebrew:
+    name: '{{ item }}'
+    update_homebrew: no
+  with_items:
+    - zsh
+    - zsh-syntax-highlighting
+    - zsh-autosuggestions
+
 - name: Backup existing ~/.zshrc
   shell: if [ -f ~/.zshrc ]; then mv ~/.zshrc{,.orig}; fi
 
@@ -14,9 +23,11 @@
     dest: ~/.zshrc
     state: link
 
-- name: Set default shell to zsh
-  shell: chsh -s /bin/zsh
-  become: yes
+- name: Set zsh as default shell
+  user:
+    name: "{{ ansible_user_id }}"
+    shell: /bin/zsh
+  become: true
 
 - name: Download Solarized Dark theme
   get_url:
@@ -26,3 +37,7 @@
 - name: Install Solarized Dark theme
   shell: open /tmp/solarized_dark_patched.itermcolors
 
+- name: Clone powerlevel9k powerline-shell theme
+  git:
+    repo: git@github.com:bhilburn/powerlevel9k.git
+    dest: ~/.oh-my-zsh/custom/themes/powerlevel9k

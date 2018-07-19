@@ -6,6 +6,7 @@
       - powerline
       - { name: 'oh-my-zsh', tags: zsh }
       - { name: vim, tags: vim }
+      - { name: ssh, tags: ssh }
 
   tasks:
     - name: Install common homebrew tools
@@ -22,9 +23,8 @@
         - wget
         - mecab
         - mecab-ipadic
+        - pipenv
         - imagemagick
-        - zsh
-        - zsh-syntax-highlighting
 
     - name: Install terminal font
       shell: brew cask install caskroom/fonts/font-meslo-for-powerline
@@ -41,6 +41,12 @@
       with_items: '{{ homebrew_cask_apps }}'
       when: item not in installed_cask_applications.results|map(attribute='stdout')
 
+    - name: Install MacVim
+      homebrew_cask:
+        name: macvim
+        install_options: with-python3
+      when: '"macvim" not in installed_cask_applications.results|map(attribute="stdout")'
+
     - name: Install common system-wide Python tools
       pip:
         name: '{{ item }}'
@@ -48,4 +54,4 @@
         - ipython
         - bpython
         - virtualenv
-        - virtualenvwrapper
+      become: yes

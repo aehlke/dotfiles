@@ -13,24 +13,20 @@
   command: /tmp/powerline-fonts/install.sh
   become: yes
 
-- name: Clone Powerline
-  git:
-    repo: git@github.com:banga/powerline-shell.git
-    dest: /tmp/powerline
-    accept_hostkey: yes
-    depth: 1
-    update: yes
 
-- name: Copy Powerline configuration
-  template:
-    src: config.py.j2
-    dest: /tmp/powerline/config.py
-
-- name: Generate powerline-shell.py
-  command: /tmp/powerline/install.py
-  args:
-    chdir: /tmp/powerline
-
-- name: Install powerline-shell.py
-  command: mv /tmp/powerline/powerline-shell.py /usr/local/bin
+- name: Install Powerline Shell
+  pip:
+    name: powerline-shell
+    state: latest
   become: yes
+
+- name: Create Powerline Shell config directory
+  file:
+    path: ~/.config/powerline-shell
+    state: directory
+
+- name: Link Powerline Shell config
+  file:
+    src: '{{ playbook_dir }}/roles/powerline/files/config.json'
+    dest: ~/.config/powerline-shell/config.json
+    state: link

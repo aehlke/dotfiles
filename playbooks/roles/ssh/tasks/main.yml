@@ -1,0 +1,7 @@
+---
+
+- name: Link SSH configuration
+  file:
+    src: '{{ playbook_dir }}/roles/ssh/files/ssh_config'
+    dest: ~/.ssh/config
+    state: link
