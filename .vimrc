@@ -1,56 +1,38 @@
 " dein Scripts-----------------------------
-if &compatible
-  set nocompatible               " Be iMproved
-endif
-set runtimepath+=/Users/alex/.vim/repos/github.com/Shougo/dein.vim
-if dein#load_state('/Users/alex/.vim/dein/.')
-    call dein#begin('/Users/alex/.vim/dein/.')
-    " Let dein manage dein
-    call dein#add('/Users/alex/.vim/dein/.')
-
-    " You can specify revision/branch/tag.
-    " call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
-
-    " My dein scripts:
-    call dein#add('Shougo/deoplete.nvim')
-    if !has('nvim')
-        call dein#add('roxma/nvim-yarp')
-        call dein#add('roxma/vim-hug-neovim-rpc')
-    endif
     "call dein#add('Shougo/neosnippet.vim')
     "call dein#add('Shougo/neosnippet-snippets')
-    call dein#add('qpkorr/vim-bufkill')
-    call dein#add('bkad/CamelCaseMotion')
-    call dein#add('ervandew/supertab')
-    call dein#add('python-mode/python-mode')
-    call dein#add('tweekmonster/django-plus.vim')
-    call dein#add('vim-scripts/nginx.vim')
-    call dein#add('powerman/vim-plugin-AnsiEsc')
-    call dein#add('ap/vim-css-color')
-    call dein#add('pangloss/vim-javascript')
-    call dein#add('scrooloose/nerdcommenter')
-    call dein#add('lepture/vim-jinja')
-    call dein#add('mattn/gist-vim', {'depends': 'mattn/webapi-vim'})
-    call dein#add('tpope/vim-surround')
-    call dein#add('tpope/vim-fugitive')
-    call dein#add('maralla/validator.vim')
-    call dein#add('pearofducks/ansible-vim')
-    call dein#add('fisadev/vim-isort')
-    call dein#add('editorconfig/editorconfig-vim')
-    call dein#add('michaeljsmith/vim-indent-object')
-    call dein#add('rizzatti/dash.vim')
+    "call dein#add('qpkorr/vim-bufkill')
+    "call dein#add('bkad/CamelCaseMotion')
+    "call dein#add('ervandew/supertab')
+    "call dein#add('python-mode/python-mode')
+    "call dein#add('tweekmonster/django-plus.vim')
+    "call dein#add('vim-scripts/nginx.vim')
+    "call dein#add('powerman/vim-plugin-AnsiEsc')
+    "call dein#add('ap/vim-css-color')
+    "call dein#add('pangloss/vim-javascript')
+    "call dein#add('scrooloose/nerdcommenter')
+    "call dein#add('lepture/vim-jinja')
+    "call dein#add('mattn/gist-vim', {'depends': 'mattn/webapi-vim'})
+    "call dein#add('tpope/vim-surround')
+    "call dein#add('tpope/vim-fugitive')
+    "call dein#add('maralla/validator.vim')
+    "call dein#add('pearofducks/ansible-vim')
+    "call dein#add('fisadev/vim-isort')
+    "call dein#add('editorconfig/editorconfig-vim')
+    "call dein#add('michaeljsmith/vim-indent-object')
+    "call dein#add('rizzatti/dash.vim')
 
-    call dein#end()
-    call dein#save_state()
-endif
+    "call dein#end()
+    "call dein#save_state()
+"endif
 
 filetype plugin indent on
 syntax enable
 
 " If you want to install not installed plugins on startup.
-if dein#check_install()
-  call dein#install()
-endif
+"if dein#check_install()
+"  call dein#install()
+"endif
 " End dein Scripts-------------------------
 
 
@@ -61,12 +43,12 @@ endif
 "   https://github.com/klen/python-mode#id18
 
 
-let canvas_dir = "/var/canvas/website"
-if isdirectory(canvas_dir)
-    exec "cd ".canvas_dir
-elseif isdirectory("~/workspace")
-    cd ~/workspace
-endif
+"let canvas_dir = "/var/canvas/website"
+"if isdirectory(canvas_dir)
+"    exec "cd ".canvas_dir
+"elseif isdirectory("~/workspace")
+"    cd ~/workspace
+"endif
 
 "
 " Basic/common settings
@@ -79,7 +61,7 @@ set nocompatible
 " Set the default file encoding to UTF-8:
 set encoding=utf-8
 " command line history
-set history=400
+set history=2400
 
 " Colorization/display
 
@@ -417,43 +399,10 @@ autocmd FileType help nnoremap <buffer> <BS> <C-T>
 " Plugins
 "
 
-" Plugin mappings
-map <leader>l :TlistOpen<CR>
-":TlistToggle<CR>
-" FuzzyFinder
-"map <leader>t :FuzzyFinderTextMate<CR>
-nmap <leader>F :FufFile<CR>
-nmap <leader>t :FufCoverageFile<CR>
-nmap <leader>f :FufFileWithCurrentBufferDir<CR>
-nmap <leader>d :FufDir<CR>
-nmap <leader>u :FufBuffer<CR>
-let g:fuf_dir_exclude = '\v(^|[/\\])\.(hg|git|bzr)($|[/\\])'
-let g:fuf_mrufile_exclude = '\v\~$|\.(bak|sw[mnop])$|^(\/\/|\\\\|\/mnt\/|\/media\/)'
-" Ignore the dojango directory since it's huge and spammy
-let g:fuf_file_exclude = '\v\~$|dojango|\.(o|exe|dll|bak|sw[mnop]|zip|pyc|DS_Store|tar\.gz)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
-
-" vim-ios
-nmap <leader>h :A<CR>
-
 " ansiesc.vim
 if exists(":AnsiEsc")
     exec ":AnsiEsc"
 endif
-
-" clang_autocomplete
-" Borrowed from http://appventure.me/2013/01/use-vim-as-xcode-alternative-ios-mac-cocoa.html
-" Disable auto completion, always <c-x> <c-o> to complete
-let g:clang_complete_auto = 0
-let g:clang_use_library = 1
-let g:clang_periodic_quickfix = 0
-let g:clang_close_preview = 1
-" For Objective-C, this needs to be active, otherwise multi-parameter methods won't be completed correctly.
-let g:clang_snippets = 1
-" Snipmate does not work anymore, ultisnips is the recommended plugin.
-let g:clang_snippets_engine = 'ultisnips'
-" This might change depending on your installation.
-let g:clang_exec = '/usr/local/bin/clang'
-let g:clang_library_path = '/usr/local/lib/libclang.dylib'
 
 " nerdcommenter
 " Add spaces after comment delimiters by default
@@ -484,7 +433,6 @@ let g:pymode_indent = 1
 
 " vim-isort
 nmap <leader>i :Isort<CR>
-
 
 
 " gist-vim (https://github.com/mattn/gist-vim)
