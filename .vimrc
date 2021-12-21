@@ -1,3 +1,12 @@
+
+" Specify a directory for plugins
+" - For Neovim: stdpath('data') . '/plugged'
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+Plug 'joshdick/onedark.vim'
+Plug 'sheerun/vim-polyglot' "improved syntax highlighting for various languages
+call plug#end()
+
 " dein Scripts-----------------------------
     "call dein#add('Shougo/neosnippet.vim')
     "call dein#add('Shougo/neosnippet-snippets')
@@ -398,6 +407,9 @@ autocmd FileType help nnoremap <buffer> <BS> <C-T>
 "
 " Plugins
 "
+
+syntax on
+colorscheme onedark
 
 " ansiesc.vim
 if exists(":AnsiEsc")
