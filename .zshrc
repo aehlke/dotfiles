@@ -1,5 +1,5 @@
 # https://formulae.brew.sh/formula/antigen
-source $(brew --prefix)/share/antigen/antigen.zsh
+source $(/opt/homebrew/bin/brew --prefix)/share/antigen/antigen.zsh
 
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
