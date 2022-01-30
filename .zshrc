@@ -42,3 +42,5 @@ unset __conda_setup
 # https://github.com/esc/conda-zsh-completion/blob/master/_conda
 zstyle ':completion::complete:*' use-cache 1
 zstyle ":conda_zsh_completion:*" use-groups true
+
+export PATH="$PATH:/Applications/Postgres.app/Contents/Versions/14/bin"
