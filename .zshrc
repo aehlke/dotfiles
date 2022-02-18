@@ -45,3 +45,6 @@ zstyle ':completion::complete:*' use-cache 1
 zstyle ":conda_zsh_completion:*" use-groups true
 
 export PATH="$PATH:/Applications/Postgres.app/Contents/Versions/14/bin"
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
