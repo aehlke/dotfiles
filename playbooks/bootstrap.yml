@@ -8,6 +8,24 @@
       - { name: vim, tags: vim }
       - { name: ssh, tags: ssh }
 
+  vars:
+    homebrew_cask_apps:
+      #- google-chrome
+      - acorn
+      - charles
+      - disk-inventory-x
+      - dropbox
+      - firefox
+      - iterm2
+      - keepingyouawake
+      - macvim
+      - pgadmin4
+      - postgres
+      - transmission
+      - transmit
+      - keka
+      - vlc
+
   tasks:
     - name: Install common homebrew tools
       homebrew:
@@ -25,6 +43,7 @@
         - mecab-ipadic
         - pipenv
         - imagemagick
+        - hkamran80/things/multiliner
 
     - name: Install terminal font
       shell: brew cask install caskroom/fonts/font-meslo-for-powerline

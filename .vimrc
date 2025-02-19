@@ -5,6 +5,7 @@
 call plug#begin('~/.vim/plugged')
 Plug 'joshdick/onedark.vim'
 Plug 'sheerun/vim-polyglot' "improved syntax highlighting for various languages
+Plug 'kburdett/vim-nuuid'
 call plug#end()
 
 " dein Scripts-----------------------------
@@ -322,9 +323,15 @@ let g:explHideFiles='^\.,.*\.class$,.*\.swp$,.*\.pyc$,.*\.swo$,\.DS_Store$'
 " breaks if we remap to gk/gj)
 "TODO see SO, theres a better way to do this IIRC
 map <up> gk
-inoremap <up> <C-R>=pumvisible() ? "\<lt>up>" : "\<lt>C-o>gk"<Enter>
+" If running in native Vim
+if (exists('plug'))
+    inoremap <up> <C-R>=pumvisible() ? "\<lt>up>" : "\<lt>C-o>gk"<Enter>
+endif
 map <down> gj
-inoremap <down> <C-R>=pumvisible() ? "\<lt>down>" : "\<lt>C-o>gj"<Enter>
+" If running in native Vim
+if (exists('plug'))
+    inoremap <down> <C-R>=pumvisible() ? "\<lt>down>" : "\<lt>C-o>gj"<Enter>
+endif
 
 " For when you forget to sudo. Really Write the file.
 cmap w!! w !sudo tee % >/dev/null
